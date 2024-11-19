@@ -47,7 +47,7 @@ export default function WelcomePage() {
         setError(data.message);
       }
     } catch (err) {
-      setError('An error occurred during login');
+      setError('An errors occurred during login');
     }
   };
 
