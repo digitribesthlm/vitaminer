@@ -13,6 +13,7 @@ import {
 export default function Supplements() {
   const [supplements, setSupplements] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [editingSupplement, setEditingSupplement] = useState(null);
   const [labels, setLabels] = useState([]);
   const [newSupplement, setNewSupplement] = useState({
     name: '',
@@ -109,6 +110,51 @@ export default function Supplements() {
     }
   };
 
+  const handleEdit = (supplement) => {
+    setEditingSupplement(supplement);
+    setNewSupplement({
+      name: supplement.name,
+      description: supplement.description,
+      category: supplement.category,
+      labelIds: supplement.labelIds || [],
+      dosages: supplement.dosages
+    });
+    setShowAddForm(true);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`/api/supplements/${editingSupplement._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(newSupplement),
+      });
+
+      if (response.ok) {
+        setShowAddForm(false);
+        setEditingSupplement(null);
+        setNewSupplement({
+          name: '',
+          description: '',
+          category: 'vitamin',
+          labelIds: [],
+          dosages: [{
+            amount: '',
+            unit: 'mg',
+            timeOfDay: 'morning'
+          }]
+        });
+        fetchSupplements();
+      }
+    } catch (error) {
+      console.error('Failed to update supplement:', error);
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -129,7 +175,7 @@ export default function Supplements() {
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
             <div className="bg-white rounded-lg p-6 max-w-md w-full">
               <h2 className="text-xl font-semibold mb-4">Add New Supplement</h2>
-              <form onSubmit={handleAddSupplement} className="space-y-4">
+              <form onSubmit={editingSupplement ? handleUpdate : handleAddSupplement} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Name</label>
                   <input
@@ -251,7 +297,7 @@ export default function Supplements() {
                     type="submit"
                     className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                   >
-                    Add Supplement
+                    {editingSupplement ? 'Update Supplement' : 'Add Supplement'}
                   </button>
                 </div>
               </form>
