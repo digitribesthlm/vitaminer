@@ -1,40 +1,41 @@
-import { connectToDatabase } from '../../../utils/mongodb';
-import { verifyAuth } from '../../../utils/auth';
-import { ObjectId } from 'mongodb';
+import { connectToDatabase } from '../../../utils/mongodb'
+import { verifyAuth } from '../../../utils/auth'
+import { ObjectId } from 'mongodb'
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
-    return res.status(405).json({ message: 'Method not allowed' });
+    return res.status(405).json({ message: 'Method not allowed' })
   }
 
   try {
-    const auth = await verifyAuth(req);
+    const auth = await verifyAuth(req)
     if (!auth.isAuthenticated) {
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { range = 'week' } = req.query;
-    const { db } = await connectToDatabase();
+    const { range = 'week' } = req.query
+    const { db } = await connectToDatabase()
 
     // Calculate date range
-    const now = new Date();
-    const startDate = new Date();
+    const now = new Date()
+    const startDate = new Date()
     switch (range) {
       case 'week':
-        startDate.setDate(now.getDate() - 7);
-        break;
+        startDate.setDate(now.getDate() - 7)
+        break
       case 'month':
-        startDate.setMonth(now.getMonth() - 1);
-        break;
+        startDate.setMonth(now.getMonth() - 1)
+        break
       case 'year':
-        startDate.setFullYear(now.getFullYear() - 1);
-        break;
+        startDate.setFullYear(now.getFullYear() - 1)
+        break
       default:
-        startDate.setDate(now.getDate() - 7);
+        startDate.setDate(now.getDate() - 7)
     }
 
     // Get tracking history with supplement details
-    const history = await db.collection('vitamin_tracking')
+    const history = await db
+      .collection('vitamin_tracking')
       .aggregate([
         {
           $match: {
@@ -67,11 +68,11 @@ export default async function handler(req, res) {
           $sort: { timeStamp: -1 }
         }
       ])
-      .toArray();
+      .toArray()
 
-    res.status(200).json(history);
+    res.status(200).json(history)
   } catch (error) {
-    console.error('History fetch error:', error);
-    res.status(500).json({ error: 'Failed to fetch history' });
+    console.error('History fetch error:', error)
+    res.status(500).json({ error: 'Failed to fetch history' })
   }
-} 
+}

@@ -4,8 +4,8 @@ const nextConfig = {
   swcMinify: true,
   // Add this to handle any potential image domains
   images: {
-    domains: [],
-  },
+    domains: []
+  }
 }
 
-module.exports = nextConfig 
+module.exports = nextConfig
