@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Footer from './Footer';
@@ -18,8 +19,6 @@ export default function DashboardLayout({ children }) {
 
   const handleLogout = async (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    
     try {
       const res = await fetch('/api/auth/logout', {
         method: 'POST',
@@ -32,11 +31,15 @@ export default function DashboardLayout({ children }) {
     } catch (error) {
       console.error('Logout failed:', error);
     }
-    
-    setIsMenuOpen(false);
   };
 
   if (!user) return null;
+
+  const navigation = [
+    { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Supplements', href: '/supplements' },
+    { name: 'History', href: '/dashboard/history' }
+  ];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -44,19 +47,21 @@ export default function DashboardLayout({ children }) {
         <div className="container mx-auto px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-12">
-              <div className="text-xl font-medium text-blue-600">
-                {process.env.NEXT_PUBLIC_BRAND_NAME}
-              </div>
+              <Link href="/dashboard" className="text-xl font-medium text-blue-600">
+                Vitamin Tracker
+              </Link>
               <div className="hidden md:flex space-x-8">
-                <a href="/dashboard" className={`text-gray-600 hover:text-gray-900 ${router.pathname === '/dashboard' ? 'text-blue-600 font-medium' : ''}`}>
-                  Dashboard
-                </a>
-                <a href="/dashboard/topics" className={`text-gray-600 hover:text-gray-900 ${router.pathname === '/dashboard/topics' ? 'text-blue-600 font-medium' : ''}`}>
-                  Topics
-                </a>
-                <a href="/dashboard/analytics" className={`text-gray-600 hover:text-gray-900 ${router.pathname === '/dashboard/analytics' ? 'text-blue-600 font-medium' : ''}`}>
-                  Analytics
-                </a>
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`text-gray-600 hover:text-gray-900 ${
+                      router.pathname === item.href ? 'text-blue-600 font-medium' : ''
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
               </div>
             </div>
 

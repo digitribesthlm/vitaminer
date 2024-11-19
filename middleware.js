@@ -4,15 +4,24 @@ export function middleware(request) {
   const { pathname } = request.nextUrl;
   const authToken = request.cookies.get('auth-token');
 
-  // Protect dashboard routes
-  if (pathname.startsWith('/dashboard')) {
-    if (!authToken) {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
+  // Redirect text-analyzer to dashboard
+  if (pathname.includes('text-analyzer')) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
-  // Prevent authenticated users from accessing login page
-  if (pathname === '/' && authToken) {
+  // Public paths that don't need authentication
+  const publicPaths = ['/', '/login', '/register'];
+  
+  // Protected paths that need authentication
+  const protectedPaths = ['/dashboard', '/supplements'];
+
+  // If path is protected and no auth token, redirect to login
+  if (protectedPaths.some(path => pathname.startsWith(path)) && !authToken) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  // If logged in user tries to access public paths, redirect to dashboard
+  if (publicPaths.includes(pathname) && authToken) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
@@ -21,13 +30,6 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 }; 
