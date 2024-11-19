@@ -2,10 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  // Add this to handle any potential image domains
-  images: {
-    domains: []
-  }
+  telemetry: false
 }
 
 module.exports = nextConfig
