@@ -11,6 +11,12 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
+import { 
+  CalendarIcon, 
+  ChartBarIcon,
+  ClockIcon,
+  BeakerIcon 
+} from '@heroicons/react/24/outline';
 
 // Register ChartJS components
 ChartJS.register(
@@ -133,7 +139,10 @@ export default function History() {
 
         {/* Chart */}
         <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-4">Intake Overview</h2>
+          <h2 className="text-lg font-semibold mb-4 flex items-center">
+            <ChartBarIcon className="h-5 w-5 mr-2" />
+            Intake Overview
+          </h2>
           {chartData && (
             <div className="h-64">
               <Line
@@ -158,7 +167,10 @@ export default function History() {
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="text-gray-600 mb-1">Total Tracked</div>
+            <div className="flex items-center text-gray-600 mb-1">
+              <BeakerIcon className="h-5 w-5 mr-2" />
+              Total Tracked
+            </div>
             <div className="text-3xl font-bold">{history.length}</div>
           </div>
           <div className="bg-white rounded-xl shadow-sm p-6">

@@ -1,5 +1,13 @@
 import DashboardLayout from '../../components/DashboardLayout';
 import { useState, useEffect } from 'react';
+import { 
+  PlusIcon, 
+  TrashIcon, 
+  PencilIcon,
+  SunIcon, 
+  MoonIcon,
+  ClockIcon 
+} from '@heroicons/react/24/outline';
 
 export default function Supplements() {
   const [supplements, setSupplements] = useState([]);
@@ -64,6 +72,17 @@ export default function Supplements() {
     }
   };
 
+  const getTimeIcon = (timeOfDay) => {
+    switch(timeOfDay) {
+      case 'morning':
+        return <SunIcon className="h-4 w-4 text-yellow-500" />;
+      case 'evening':
+        return <MoonIcon className="h-4 w-4 text-indigo-500" />;
+      default:
+        return <ClockIcon className="h-4 w-4 text-gray-500" />;
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -72,8 +91,9 @@ export default function Supplements() {
           <h1 className="text-2xl font-bold">My Supplements</h1>
           <button
             onClick={() => setShowAddForm(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
           >
+            <PlusIcon className="h-5 w-5 mr-2" />
             Add New Supplement
           </button>
         </div>
@@ -197,25 +217,31 @@ export default function Supplements() {
                 <div>
                   <h3 className="text-lg font-medium text-gray-900">{supplement.name}</h3>
                   <p className="text-sm text-gray-500 mt-1">{supplement.description}</p>
-                  <div className="mt-2">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {supplement.category}
-                    </span>
-                  </div>
                   <div className="mt-3">
                     {supplement.dosages.map((dosage, index) => (
-                      <div key={index} className="text-sm text-gray-600">
-                        {dosage.amount} {dosage.unit} - {dosage.timeOfDay}
+                      <div key={index} className="flex items-center text-sm text-gray-600 mt-1">
+                        {getTimeIcon(dosage.timeOfDay)}
+                        <span className="ml-2">
+                          {dosage.amount} {dosage.unit} - {dosage.timeOfDay}
+                        </span>
                       </div>
                     ))}
                   </div>
                 </div>
-                <button
-                  onClick={() => handleDelete(supplement._id)}
-                  className="text-red-600 hover:text-red-800"
-                >
-                  <TrashIcon className="h-5 w-5" />
-                </button>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => handleEdit(supplement)}
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    <PencilIcon className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(supplement._id)}
+                    className="text-red-600 hover:text-red-800"
+                  >
+                    <TrashIcon className="h-5 w-5" />
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -223,10 +249,4 @@ export default function Supplements() {
       </div>
     </DashboardLayout>
   );
-}
-
-const TrashIcon = ({ className }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-  </svg>
-); 
+} 
