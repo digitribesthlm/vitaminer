@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 export default function Navbar({ onLoginClick }) {
   return (
     <nav className='flex justify-between items-center py-6 px-8'>
@@ -23,4 +25,8 @@ export default function Navbar({ onLoginClick }) {
       </div>
     </nav>
   )
+}
+
+Navbar.propTypes = {
+  onLoginClick: PropTypes.func.isRequired
 }

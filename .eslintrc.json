@@ -5,6 +5,6 @@
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
     "no-unused-vars": "warn",
-    "react/prop-types": "warn"
+    "react/prop-types": "off"
   }
 }

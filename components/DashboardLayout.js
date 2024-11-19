@@ -9,6 +9,7 @@ import {
   UserIcon,
   ArrowRightOnRectangleIcon
 } from '@heroicons/react/24/outline'
+import PropTypes from 'prop-types'
 
 export default function DashboardLayout({ children }) {
   const router = useRouter()
@@ -22,7 +23,7 @@ export default function DashboardLayout({ children }) {
       return
     }
     setUser(JSON.parse(userData))
-  }, [])
+  }, [router])
 
   const handleLogout = async (e) => {
     e.preventDefault()
@@ -115,4 +116,8 @@ export default function DashboardLayout({ children }) {
       <Footer />
     </div>
   )
+}
+
+DashboardLayout.propTypes = {
+  children: PropTypes.node.isRequired
 }
