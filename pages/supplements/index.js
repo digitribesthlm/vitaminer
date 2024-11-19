@@ -6,16 +6,19 @@ import {
   PencilIcon,
   SunIcon, 
   MoonIcon,
-  ClockIcon 
+  ClockIcon,
+  XMarkIcon
 } from '@heroicons/react/24/outline';
 
 export default function Supplements() {
   const [supplements, setSupplements] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [labels, setLabels] = useState([]);
   const [newSupplement, setNewSupplement] = useState({
     name: '',
     description: '',
     category: 'vitamin',
+    labelIds: [],
     dosages: [{
       amount: '',
       unit: 'mg',
@@ -25,6 +28,7 @@ export default function Supplements() {
 
   useEffect(() => {
     fetchSupplements();
+    fetchLabels();
   }, []);
 
   const fetchSupplements = async () => {
@@ -38,6 +42,18 @@ export default function Supplements() {
       }
     } catch (error) {
       console.error('Failed to fetch supplements:', error);
+    }
+  };
+
+  const fetchLabels = async () => {
+    try {
+      const response = await fetch('/api/supplements/labels');
+      if (response.ok) {
+        const data = await response.json();
+        setLabels(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch labels:', error);
     }
   };
 
@@ -59,6 +75,7 @@ export default function Supplements() {
           name: '',
           description: '',
           category: 'vitamin',
+          labelIds: [],
           dosages: [{
             amount: '',
             unit: 'mg',
@@ -70,6 +87,15 @@ export default function Supplements() {
     } catch (error) {
       console.error('Failed to add supplement:', error);
     }
+  };
+
+  const handleLabelToggle = (labelId) => {
+    setNewSupplement(prev => ({
+      ...prev,
+      labelIds: prev.labelIds.includes(labelId)
+        ? prev.labelIds.filter(id => id !== labelId)
+        : [...prev.labelIds, labelId]
+    }));
   };
 
   const getTimeIcon = (timeOfDay) => {
@@ -186,6 +212,30 @@ export default function Supplements() {
                       <option value="afternoon">Afternoon</option>
                       <option value="evening">Evening</option>
                     </select>
+                  </div>
+                </div>
+
+                {/* Labels Section */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Labels</label>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {labels.map((label) => (
+                      <button
+                        key={label._id}
+                        type="button"
+                        onClick={() => handleLabelToggle(label._id)}
+                        className={`inline-flex items-center px-3 py-1 rounded-full text-sm
+                          ${newSupplement.labelIds.includes(label._id)
+                            ? `bg-${label.color}-100 text-${label.color}-800 border-${label.color}-300`
+                            : 'bg-gray-100 text-gray-700 border-gray-300'
+                          } border`}
+                      >
+                        {label.name}
+                        {newSupplement.labelIds.includes(label._id) && (
+                          <XMarkIcon className="w-4 h-4 ml-1" />
+                        )}
+                      </button>
+                    ))}
                   </div>
                 </div>
 

@@ -28,6 +28,7 @@ export default async function handler(req, res) {
       const supplement = {
         ...req.body,
         userId: new ObjectId(auth.userId),
+        labelIds: req.body.labelIds.map(id => new ObjectId(id)),
         created_at: new Date()
       };
 

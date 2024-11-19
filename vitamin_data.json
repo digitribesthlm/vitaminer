@@ -1,0 +1,64 @@
+{
+  "vitamin_labels": [
+    {
+      "_id": { "$oid": "label001" },
+      "name": "Immune System",
+      "color": "blue",
+      "description": "Supports immune system function"
+    },
+    {
+      "_id": { "$oid": "label002" },
+      "name": "Energy",
+      "color": "yellow",
+      "description": "Helps with energy levels"
+    },
+    {
+      "_id": { "$oid": "label003" },
+      "name": "Brain Function",
+      "color": "purple",
+      "description": "Supports cognitive function"
+    },
+    {
+      "_id": { "$oid": "label004" },
+      "name": "Bone Health",
+      "color": "green",
+      "description": "Supports bone strength"
+    },
+    {
+      "_id": { "$oid": "label005" },
+      "name": "Sleep",
+      "color": "indigo",
+      "description": "Aids sleep quality"
+    }
+  ],
+  "vitamin_supplements": [
+    {
+      "_id": { "$oid": "supp001" },
+      "name": "Vitamin D3",
+      "description": "Sunshine vitamin for overall health",
+      "category": "vitamin",
+      "labelIds": ["label001", "label004"],
+      "dosages": [
+        {
+          "amount": 2000,
+          "unit": "IU",
+          "timeOfDay": "morning"
+        }
+      ]
+    },
+    {
+      "_id": { "$oid": "supp002" },
+      "name": "Magnesium",
+      "description": "Essential mineral for body function",
+      "category": "mineral",
+      "labelIds": ["label003", "label005"],
+      "dosages": [
+        {
+          "amount": 400,
+          "unit": "mg",
+          "timeOfDay": "evening"
+        }
+      ]
+    }
+  ]
+} 

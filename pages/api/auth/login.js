@@ -9,36 +9,56 @@ export default async function handler(req, res) {
 
     try {
         const { email, password } = req.body;
-        const { db } = await connectToDatabase();
-
-        const user = await db.collection('vitamin_users').findOne({ email });
+        console.log('Attempting login for email:', email);
         
-        if (!user || password !== user.password) {
+        const { db } = await connectToDatabase();
+        
+        // Check if collection exists
+        const collections = await db.listCollections().toArray();
+        console.log('Available collections:', collections.map(c => c.name));
+        
+        // Check users in collection
+        const users = await db.collection('vitamine_users').find({}).toArray();
+        console.log('Total users in collection:', users.length);
+        
+        // Find user
+        const user = await db.collection('vitamine_users').findOne({ email });
+        console.log('User found:', user ? 'yes' : 'no');
+        
+        if (!user) {
+            console.error('Login failed: User not found');
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        // Create a secure token (in production, use proper JWT)
+        // Simple string comparison for password
+        if (password !== user.password) {
+            console.error('Login failed: Invalid password');
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        // Create auth token
         const token = Buffer.from(JSON.stringify({
-            userId: user._id,
+            userId: user._id.toString(),
             email: user.email,
-            role: user.role
+            role: user.role || 'user'
         })).toString('base64');
 
-        // Set secure cookie
+        // Set cookie
         res.setHeader('Set-Cookie', serialize('auth-token', token, {
+            path: '/',
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: 3600, // 1 hour
-            path: '/'
+            sameSite: 'lax',
+            maxAge: 60 * 60 * 24 * 7 // 1 week
         }));
 
-        // Return user data
+        console.log('Login successful for:', email);
+
         res.status(200).json({
+            message: 'Logged in successfully',
             user: {
                 email: user.email,
-                role: user.role,
-                clientId: user.clientId
+                role: user.role || 'user'
             }
         });
     } catch (error) {
