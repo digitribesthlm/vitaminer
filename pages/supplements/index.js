@@ -86,7 +86,7 @@ export default function Supplements() {
         fetchSupplements();
       }
     } catch (error) {
-      console.error('Failed to add supplement:', error);
+      console.error('Failed to adds supplement:', error);
     }
   };
 
