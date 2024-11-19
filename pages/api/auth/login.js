@@ -13,15 +13,12 @@ export default async function handler(req, res) {
         
         const { db } = await connectToDatabase();
         
-        // Check if collection exists
         const collections = await db.listCollections().toArray();
         console.log('Available collections:', collections.map(c => c.name));
         
-        // Check users in collection
         const users = await db.collection('vitamine_users').find({}).toArray();
         console.log('Total users in collection:', users.length);
         
-        // Find user
         const user = await db.collection('vitamine_users').findOne({ email });
         console.log('User found:', user ? 'yes' : 'no');
         
@@ -30,20 +27,17 @@ export default async function handler(req, res) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        // Simple string comparison for password
         if (password !== user.password) {
             console.error('Login failed: Invalid password');
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        // Create auth token
         const token = Buffer.from(JSON.stringify({
             userId: user._id.toString(),
             email: user.email,
             role: user.role || 'user'
         })).toString('base64');
 
-        // Set cookie
         res.setHeader('Set-Cookie', serialize('auth-token', token, {
             path: '/',
             httpOnly: true,
