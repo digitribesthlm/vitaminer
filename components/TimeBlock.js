@@ -11,4 +11,4 @@ TimeBlock.propTypes = {
   borderColor: PropTypes.string.isRequired
 }
 
-export default TimeBlock 
+export default TimeBlock
