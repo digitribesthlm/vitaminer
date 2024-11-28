@@ -172,10 +172,11 @@ export default function Supplements() {
           <h1 className="text-2xl font-bold">My Supplements</h1>
           <button
             onClick={() => setShowAddForm(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
+            className="bg-blue-600 text-white text-sm md:text-base px-3 md:px-4 py-1.5 md:py-2 rounded-lg hover:bg-blue-700 flex items-center whitespace-nowrap"
           >
-            <PlusIcon className="h-5 w-5 mr-2" />
-            Add New Supplement
+            <PlusIcon className="h-4 w-4 md:h-5 md:w-5 mr-1.5 md:mr-2" />
+            <span className="hidden sm:inline">Add New Supplement</span>
+            <span className="sm:hidden">Add New</span>
           </button>
         </div>
 
