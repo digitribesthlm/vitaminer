@@ -54,7 +54,7 @@ export default function Dashboard() {
 
       setSupplements(grouped);
 
-      // Fetch taken supplements
+      // Fetch taken supplements.
       const takenRes = await fetch('/api/supplements/taken-today', {
         credentials: 'include',
       });
