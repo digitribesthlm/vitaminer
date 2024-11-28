@@ -1,55 +1,55 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import ServicesGrid from '../components/ServicesGrid'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import ServicesGrid from '../components/ServicesGrid';
 
 export default function WelcomePage() {
-  const [showLoginModal, setShowLoginModal] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [rememberMe, setRememberMe] = useState(false)
-  const [error, setError] = useState('')
-  const router = useRouter()
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     if (showLoginModal) {
-      const savedEmail = localStorage.getItem('rememberedEmail')
+      const savedEmail = localStorage.getItem('rememberedEmail');
       if (savedEmail) {
-        setEmail(savedEmail)
-        setRememberMe(true)
+        setEmail(savedEmail);
+        setRememberMe(true);
       }
     }
-  }, [showLoginModal])
+  }, [showLoginModal]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
+    e.preventDefault();
+    setError('');
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      })
+        body: JSON.stringify({ email, password }),
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
       if (res.ok) {
         if (rememberMe) {
-          localStorage.setItem('rememberedEmail', email)
+          localStorage.setItem('rememberedEmail', email);
         } else {
-          localStorage.removeItem('rememberedEmail')
+          localStorage.removeItem('rememberedEmail');
         }
 
-        localStorage.setItem('user', JSON.stringify(data.user))
-        router.replace('/dashboard')
+        localStorage.setItem('user', JSON.stringify(data.user));
+        router.replace('/dashboard');
       } else {
-        setError(data.message)
+        setError(data.message);
       }
     } catch (err) {
-      setError('An errors occurred during login')
+      setError('An errors occurred during login');
     }
-  }
+  };
 
   return (
     <div className='min-h-screen'>
@@ -163,5 +163,5 @@ export default function WelcomePage() {
         </div>
       )}
     </div>
-  )
+  );
 }

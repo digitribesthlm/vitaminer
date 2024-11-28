@@ -1,6 +1,6 @@
-import DashboardLayout from '../../components/DashboardLayout'
-import { useState, useEffect } from 'react'
-import { Line } from 'react-chartjs-2'
+import DashboardLayout from '../../components/DashboardLayout';
+import { useState, useEffect, useCallback } from 'react';
+import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,14 +9,9 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend
-} from 'chart.js'
-import {
-  CalendarIcon,
-  ChartBarIcon,
-  ClockIcon,
-  BeakerIcon
-} from '@heroicons/react/24/outline'
+  Legend,
+} from 'chart.js';
+import { ChartBarIcon, BeakerIcon } from '@heroicons/react/24/outline';
 
 // Register ChartJS components
 ChartJS.register(
@@ -27,46 +22,46 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend
-)
+);
 
 export default function History() {
-  const [history, setHistory] = useState([])
-  const [chartData, setChartData] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [dateRange, setDateRange] = useState('week') // week, month, year
+  const [history, setHistory] = useState([]);
+  const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [dateRange, setDateRange] = useState('week'); // week, month, year
 
-  useEffect(() => {
-    fetchHistory()
-  }, [dateRange])
-
-  const fetchHistory = async () => {
+  const fetchHistory = useCallback(async () => {
     try {
       const response = await fetch(
         `/api/supplements/history?range=${dateRange}`,
         {
-          credentials: 'include'
+          credentials: 'include',
         }
-      )
+      );
       if (response.ok) {
-        const data = await response.json()
-        setHistory(data)
-        prepareChartData(data)
+        const data = await response.json();
+        setHistory(data);
+        prepareChartData(data);
       }
     } catch (error) {
-      console.error('Failed to fetch history:', error)
+      console.error('Failed to fetch history:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  }, [dateRange]);
+
+  useEffect(() => {
+    fetchHistory();
+  }, [fetchHistory]);
 
   const prepareChartData = (data) => {
     // Group data by date
     const grouped = data.reduce((acc, item) => {
-      const date = new Date(item.timeStamp).toLocaleDateString()
-      if (!acc[date]) acc[date] = 0
-      acc[date]++
-      return acc
-    }, {})
+      const date = new Date(item.timeStamp).toLocaleDateString();
+      if (!acc[date]) acc[date] = 0;
+      acc[date]++;
+      return acc;
+    }, {});
 
     setChartData({
       labels: Object.keys(grouped),
@@ -76,11 +71,11 @@ export default function History() {
           data: Object.values(grouped),
           fill: false,
           borderColor: 'rgb(59, 130, 246)',
-          tension: 0.1
-        }
-      ]
-    })
-  }
+          tension: 0.1,
+        },
+      ],
+    });
+  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -88,16 +83,16 @@ export default function History() {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
-    })
-  }
+      minute: '2-digit',
+    });
+  };
 
   if (loading) {
     return (
       <DashboardLayout>
         <div>Loading...</div>
       </DashboardLayout>
-    )
+    );
   }
 
   return (
@@ -157,10 +152,10 @@ export default function History() {
                     y: {
                       beginAtZero: true,
                       ticks: {
-                        stepSize: 1
-                      }
-                    }
-                  }
+                        stepSize: 1,
+                      },
+                    },
+                  },
                 }}
               />
             </div>
@@ -230,5 +225,5 @@ export default function History() {
         </div>
       </div>
     </DashboardLayout>
-  )
+  );
 }

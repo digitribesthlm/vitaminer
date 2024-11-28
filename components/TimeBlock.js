@@ -1,14 +1,11 @@
-import PropTypes from 'prop-types'
-
-function TimeBlock({ supplements, icon: Icon, bgColor, borderColor }) {
-  // ... component code
+function TimeBlock() {
+  return (
+    <div className='p-4 rounded-lg shadow-md'>
+      <div className='flex items-center space-x-4'>
+        <h3 className='text-lg font-medium'>Time Block</h3>
+      </div>
+    </div>
+  );
 }
 
-TimeBlock.propTypes = {
-  supplements: PropTypes.array.isRequired,
-  icon: PropTypes.elementType.isRequired,
-  bgColor: PropTypes.string.isRequired,
-  borderColor: PropTypes.string.isRequired
-}
-
-export default TimeBlock
+export default TimeBlock;

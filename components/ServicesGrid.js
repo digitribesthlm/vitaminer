@@ -3,34 +3,34 @@ export default function ServicesGrid() {
     {
       title: 'Performance Marketing',
       description:
-        'Strategic PPC campaigns across Google, Meta, LinkedIn, and more. Drive targeted traffic that converts.'
+        'Strategic PPC campaigns across Google, Meta, LinkedIn, and more. Drive targeted traffic that converts.',
     },
     {
       title: 'Search Engine Optimization',
       description:
-        'Dominate search rankings with data-driven SEO strategies tailored to your market and audience.'
+        'Dominate search rankings with data-driven SEO strategies tailored to your market and audience.',
     },
     {
       title: 'Journey Optimization',
       description:
-        'Enhance every touchpoint of your customer journey with advanced analytics and optimization.'
+        'Enhance every touchpoint of your customer journey with advanced analytics and optimization.',
     },
     {
       title: 'International Growth',
       description:
-        'Expand your reach across 10 European markets with localized digital strategies.'
+        'Expand your reach across 10 European markets with localized digital strategies.',
     },
     {
       title: 'Data & Analytics',
       description:
-        'Turn data into insights with comprehensive tracking and performance measurement.'
+        'Turn data into insights with comprehensive tracking and performance measurement.',
     },
     {
       title: 'Strategy & Innovation',
       description:
-        'Custom digital strategies that align with your business goals and market dynamics.'
-    }
-  ]
+        'Custom digital strategies that align with your business goals and market dynamics.',
+    },
+  ];
 
   return (
     <section className='py-20 bg-gray-50'>
@@ -54,5 +54,5 @@ export default function ServicesGrid() {
         </div>
       </div>
     </section>
-  )
+  );
 }

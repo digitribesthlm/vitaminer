@@ -1,5 +1,5 @@
-import DashboardLayout from '../../components/DashboardLayout'
-import { useState, useEffect } from 'react'
+import DashboardLayout from '../../components/DashboardLayout';
+import { useState, useEffect } from 'react';
 import {
   PlusIcon,
   TrashIcon,
@@ -7,14 +7,14 @@ import {
   SunIcon,
   MoonIcon,
   ClockIcon,
-  XMarkIcon
-} from '@heroicons/react/24/outline'
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
 
 export default function Supplements() {
-  const [supplements, setSupplements] = useState([])
-  const [showAddForm, setShowAddForm] = useState(false)
-  const [editingSupplement, setEditingSupplement] = useState(null)
-  const [labels, setLabels] = useState([])
+  const [supplements, setSupplements] = useState([]);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [editingSupplement, setEditingSupplement] = useState(null);
+  const [labels, setLabels] = useState([]);
   const [newSupplement, setNewSupplement] = useState({
     name: '',
     description: '',
@@ -24,56 +24,56 @@ export default function Supplements() {
       {
         amount: '',
         unit: 'mg',
-        timeOfDay: 'morning'
-      }
-    ]
-  })
+        timeOfDay: 'morning',
+      },
+    ],
+  });
 
   useEffect(() => {
-    fetchSupplements()
-    fetchLabels()
-  }, [])
+    fetchSupplements();
+    fetchLabels();
+  }, []);
 
   const fetchSupplements = async () => {
     try {
       const response = await fetch('/api/supplements', {
-        credentials: 'include'
-      })
+        credentials: 'include',
+      });
       if (response.ok) {
-        const data = await response.json()
-        setSupplements(data)
+        const data = await response.json();
+        setSupplements(data);
       }
     } catch (error) {
-      console.error('Failed to fetch supplements:', error)
+      console.error('Failed to fetch supplements:', error);
     }
-  }
+  };
 
   const fetchLabels = async () => {
     try {
-      const response = await fetch('/api/supplements/labels')
+      const response = await fetch('/api/supplements/labels');
       if (response.ok) {
-        const data = await response.json()
-        setLabels(data)
+        const data = await response.json();
+        setLabels(data);
       }
     } catch (error) {
-      console.error('Failed to fetch labels:', error)
+      console.error('Failed to fetch labels:', error);
     }
-  }
+  };
 
   const handleAddSupplement = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const response = await fetch('/api/supplements', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify(newSupplement)
-      })
+        body: JSON.stringify(newSupplement),
+      });
 
       if (response.ok) {
-        setShowAddForm(false)
+        setShowAddForm(false);
         setNewSupplement({
           name: '',
           description: '',
@@ -83,67 +83,67 @@ export default function Supplements() {
             {
               amount: '',
               unit: 'mg',
-              timeOfDay: 'morning'
-            }
-          ]
-        })
-        fetchSupplements()
+              timeOfDay: 'morning',
+            },
+          ],
+        });
+        fetchSupplements();
       }
     } catch (error) {
-      console.error('Failed to adds supplement:', error)
+      console.error('Failed to adds supplement:', error);
     }
-  }
+  };
 
   const handleLabelToggle = (labelId) => {
     setNewSupplement((prev) => ({
       ...prev,
       labelIds: prev.labelIds.includes(labelId)
         ? prev.labelIds.filter((id) => id !== labelId)
-        : [...prev.labelIds, labelId]
-    }))
-  }
+        : [...prev.labelIds, labelId],
+    }));
+  };
 
   const getTimeIcon = (timeOfDay) => {
     switch (timeOfDay) {
       case 'morning':
-        return <SunIcon className='h-4 w-4 text-yellow-500' />
+        return <SunIcon className='h-4 w-4 text-yellow-500' />;
       case 'evening':
-        return <MoonIcon className='h-4 w-4 text-indigo-500' />
+        return <MoonIcon className='h-4 w-4 text-indigo-500' />;
       default:
-        return <ClockIcon className='h-4 w-4 text-gray-500' />
+        return <ClockIcon className='h-4 w-4 text-gray-500' />;
     }
-  }
+  };
 
   const handleEdit = (supplement) => {
-    setEditingSupplement(supplement)
+    setEditingSupplement(supplement);
     setNewSupplement({
       name: supplement.name,
       description: supplement.description,
       category: supplement.category,
       labelIds: supplement.labelIds || [],
-      dosages: supplement.dosages
-    })
-    setShowAddForm(true)
-  }
+      dosages: supplement.dosages,
+    });
+    setShowAddForm(true);
+  };
 
   const handleUpdate = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const response = await fetch(
         `/api/supplements/${editingSupplement._id}`,
         {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
           credentials: 'include',
-          body: JSON.stringify(newSupplement)
+          body: JSON.stringify(newSupplement),
         }
-      )
+      );
 
       if (response.ok) {
-        setShowAddForm(false)
-        setEditingSupplement(null)
+        setShowAddForm(false);
+        setEditingSupplement(null);
         setNewSupplement({
           name: '',
           description: '',
@@ -153,16 +153,16 @@ export default function Supplements() {
             {
               amount: '',
               unit: 'mg',
-              timeOfDay: 'morning'
-            }
-          ]
-        })
-        fetchSupplements()
+              timeOfDay: 'morning',
+            },
+          ],
+        });
+        fetchSupplements();
       }
     } catch (error) {
-      console.error('Failed to update supplement:', error)
+      console.error('Failed to update supplement:', error);
     }
-  }
+  };
 
   return (
     <DashboardLayout>
@@ -200,7 +200,7 @@ export default function Supplements() {
                     onChange={(e) =>
                       setNewSupplement({
                         ...newSupplement,
-                        name: e.target.value
+                        name: e.target.value,
                       })
                     }
                     className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
@@ -217,7 +217,7 @@ export default function Supplements() {
                     onChange={(e) =>
                       setNewSupplement({
                         ...newSupplement,
-                        description: e.target.value
+                        description: e.target.value,
                       })
                     }
                     className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
@@ -234,7 +234,7 @@ export default function Supplements() {
                     onChange={(e) =>
                       setNewSupplement({
                         ...newSupplement,
-                        category: e.target.value
+                        category: e.target.value,
                       })
                     }
                     className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
@@ -259,9 +259,9 @@ export default function Supplements() {
                           dosages: [
                             {
                               ...newSupplement.dosages[0],
-                              amount: e.target.value
-                            }
-                          ]
+                              amount: e.target.value,
+                            },
+                          ],
                         })
                       }
                       className='block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
@@ -276,9 +276,9 @@ export default function Supplements() {
                           dosages: [
                             {
                               ...newSupplement.dosages[0],
-                              unit: e.target.value
-                            }
-                          ]
+                              unit: e.target.value,
+                            },
+                          ],
                         })
                       }
                       className='block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
@@ -296,9 +296,9 @@ export default function Supplements() {
                           dosages: [
                             {
                               ...newSupplement.dosages[0],
-                              timeOfDay: e.target.value
-                            }
-                          ]
+                              timeOfDay: e.target.value,
+                            },
+                          ],
                         })
                       }
                       className='block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
@@ -406,5 +406,5 @@ export default function Supplements() {
         </div>
       </div>
     </DashboardLayout>
-  )
+  );
 }

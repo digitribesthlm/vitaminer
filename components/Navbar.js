@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 export default function Navbar({ onLoginClick }) {
   return (
@@ -24,9 +24,9 @@ export default function Navbar({ onLoginClick }) {
         </button>
       </div>
     </nav>
-  )
+  );
 }
 
 Navbar.propTypes = {
-  onLoginClick: PropTypes.func.isRequired
-}
+  onLoginClick: PropTypes.func.isRequired,
+};

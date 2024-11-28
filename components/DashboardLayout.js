@@ -1,53 +1,53 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import Footer from './Footer'
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import Footer from './Footer';
 import {
   HomeIcon,
   BeakerIcon,
   ClockIcon,
   UserIcon,
-  ArrowRightOnRectangleIcon
-} from '@heroicons/react/24/outline'
-import PropTypes from 'prop-types'
+  ArrowRightOnRectangleIcon,
+} from '@heroicons/react/24/outline';
+import PropTypes from 'prop-types';
 
 export default function DashboardLayout({ children }) {
-  const router = useRouter()
-  const [user, setUser] = useState(null)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const userData = localStorage.getItem('user')
+    const userData = localStorage.getItem('user');
     if (!userData) {
-      router.push('/')
-      return
+      router.push('/');
+      return;
     }
-    setUser(JSON.parse(userData))
-  }, [router])
+    setUser(JSON.parse(userData));
+  }, [router]);
 
   const handleLogout = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const res = await fetch('/api/auth/logout', {
-        method: 'POST'
-      })
+        method: 'POST',
+      });
 
       if (res.ok) {
-        localStorage.removeItem('user')
-        router.push('/')
+        localStorage.removeItem('user');
+        router.push('/');
       }
     } catch (error) {
-      console.error('Logout failed:', error)
+      console.error('Logout failed:', error);
     }
-  }
+  };
 
-  if (!user) return null
+  if (!user) return null;
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
     { name: 'Supplements', href: '/supplements', icon: BeakerIcon },
-    { name: 'History', href: '/dashboard/history', icon: ClockIcon }
-  ]
+    { name: 'History', href: '/dashboard/history', icon: ClockIcon },
+  ];
 
   return (
     <div className='min-h-screen flex flex-col'>
@@ -64,7 +64,7 @@ export default function DashboardLayout({ children }) {
               </Link>
               <div className='hidden md:flex space-x-8'>
                 {navigation.map((item) => {
-                  const Icon = item.icon
+                  const Icon = item.icon;
                   return (
                     <Link
                       key={item.name}
@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }) {
                       <Icon className='h-5 w-5' />
                       <span>{item.name}</span>
                     </Link>
-                  )
+                  );
                 })}
               </div>
             </div>
@@ -115,9 +115,9 @@ export default function DashboardLayout({ children }) {
 
       <Footer />
     </div>
-  )
+  );
 }
 
 DashboardLayout.propTypes = {
-  children: PropTypes.node.isRequired
-}
+  children: PropTypes.node.isRequired,
+};

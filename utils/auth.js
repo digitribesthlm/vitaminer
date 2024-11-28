@@ -1,21 +1,21 @@
 export async function verifyAuth(req) {
-  const authToken = req.cookies['auth-token']
+  const authToken = req.cookies['auth-token'];
 
   if (!authToken) {
-    return { isAuthenticated: false }
+    return { isAuthenticated: false };
   }
 
   try {
-    const decoded = JSON.parse(Buffer.from(authToken, 'base64').toString())
+    const decoded = JSON.parse(Buffer.from(authToken, 'base64').toString());
 
     return {
       isAuthenticated: true,
       userId: decoded.userId,
       email: decoded.email,
-      role: decoded.role
-    }
+      role: decoded.role,
+    };
   } catch (error) {
-    console.error('Auth verification error:', error)
-    return { isAuthenticated: false }
+    console.error('Auth verification error:', error);
+    return { isAuthenticated: false };
   }
 }

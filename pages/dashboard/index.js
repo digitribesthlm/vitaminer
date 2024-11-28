@@ -1,103 +1,103 @@
-import DashboardLayout from '../../components/DashboardLayout'
-import { useState, useEffect } from 'react'
-import { SunIcon, MoonIcon, StarIcon } from '@heroicons/react/24/outline'
+import DashboardLayout from '../../components/DashboardLayout';
+import { useState, useEffect } from 'react';
+import { SunIcon, MoonIcon, StarIcon } from '@heroicons/react/24/outline';
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
     totalSupplements: 0,
     takenToday: 0,
-    streak: 0
-  })
+    streak: 0,
+  });
   const [supplements, setSupplements] = useState({
     morning: [],
     afternoon: [],
-    evening: []
-  })
-  const [takenSupplements, setTakenSupplements] = useState([])
-  const [loading, setLoading] = useState(true)
+    evening: [],
+  });
+  const [takenSupplements, setTakenSupplements] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   const fetchData = async () => {
     try {
       // Fetch stats
       const statsRes = await fetch('/api/dashboard/stats', {
-        credentials: 'include'
-      })
-      const statsData = await statsRes.json()
-      setStats(statsData)
+        credentials: 'include',
+      });
+      const statsData = await statsRes.json();
+      setStats(statsData);
 
       // Fetch supplements
       const suppsRes = await fetch('/api/supplements', {
-        credentials: 'include'
-      })
-      const suppsData = await suppsRes.json()
+        credentials: 'include',
+      });
+      const suppsData = await suppsRes.json();
 
       // Group supplements by time of day
       const grouped = suppsData.reduce(
         (acc, supp) => {
           supp.dosages.forEach((dosage) => {
             if (!acc[dosage.timeOfDay]) {
-              acc[dosage.timeOfDay] = []
+              acc[dosage.timeOfDay] = [];
             }
             acc[dosage.timeOfDay].push({
               ...supp,
-              currentDosage: dosage
-            })
-          })
-          return acc
+              currentDosage: dosage,
+            });
+          });
+          return acc;
         },
         { morning: [], afternoon: [], evening: [] }
-      )
+      );
 
-      setSupplements(grouped)
+      setSupplements(grouped);
 
       // Fetch taken supplements
       const takenRes = await fetch('/api/supplements/taken-today', {
-        credentials: 'include'
-      })
+        credentials: 'include',
+      });
       if (takenRes.ok) {
-        const takenData = await takenRes.json()
-        setTakenSupplements(takenData.map((t) => t.supplementId))
+        const takenData = await takenRes.json();
+        setTakenSupplements(takenData.map((t) => t.supplementId));
       }
     } catch (error) {
-      console.error('Error fetching dashboard data:', error)
+      console.error('Error fetching dashboard data:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleTakeDose = async (supplementId) => {
     try {
       const response = await fetch('/api/supplements/track', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         credentials: 'include',
         body: JSON.stringify({
           supplementId,
-          dosageIndex: 0
-        })
-      })
+          dosageIndex: 0,
+        }),
+      });
 
       if (response.ok) {
-        setTakenSupplements((prev) => [...prev, supplementId])
-        fetchData() // Refresh all data
+        setTakenSupplements((prev) => [...prev, supplementId]);
+        fetchData(); // Refresh all data
       }
     } catch (error) {
-      console.error('Error tracking supplement:', error)
+      console.error('Error tracking supplement:', error);
     }
-  }
+  };
 
   const TimeBlock = ({
     title,
     supplements,
     icon: Icon,
     bgColor,
-    borderColor
+    borderColor,
   }) => (
     <div
       className={`bg-white rounded-xl shadow-sm p-6 border-l-4 ${borderColor}`}
@@ -149,14 +149,14 @@ export default function Dashboard() {
         )}
       </div>
     </div>
-  )
+  );
 
   if (loading) {
     return (
       <DashboardLayout>
         <div>Loading...</div>
       </DashboardLayout>
-    )
+    );
   }
 
   return (
@@ -204,7 +204,7 @@ export default function Dashboard() {
         </div>
       </div>
     </DashboardLayout>
-  )
+  );
 }
 
 const CheckIcon = ({ className }) => (
@@ -221,7 +221,7 @@ const CheckIcon = ({ className }) => (
       d='M5 13l4 4L19 7'
     />
   </svg>
-)
+);
 
 const PlusIcon = ({ className }) => (
   <svg
@@ -237,4 +237,4 @@ const PlusIcon = ({ className }) => (
       d='M12 6v6m0 0v6m0-6h6m-6 0H6'
     />
   </svg>
-)
+);
