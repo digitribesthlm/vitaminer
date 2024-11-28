@@ -23,8 +23,7 @@ ChartJS.register(
   Legend
 )
 
-export default function History() {
-  const [history, setHistory] = useState([])
+const History = () => {
   const [chartData, setChartData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [dateRange, setDateRange] = useState('week')
@@ -71,7 +70,6 @@ export default function History() {
       })
       if (response.ok) {
         const data = await response.json()
-        setHistory(data)
         prepareChartData(data)
       }
     } catch (error) {
@@ -171,3 +169,5 @@ export default function History() {
     </DashboardLayout>
   )
 }
+
+export default History

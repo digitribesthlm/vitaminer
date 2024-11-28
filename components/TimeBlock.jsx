@@ -1,4 +1,4 @@
-function TimeBlock() {
+const TimeBlock = () => {
   return (
     <div className="p-4 rounded-lg shadow-md">
       <div className="flex items-center space-x-4">
