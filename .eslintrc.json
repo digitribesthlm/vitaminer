@@ -1,8 +1,25 @@
 {
-  "extends": ["next/core-web-vitals"],
+  "extends": ["next"],
+  "settings": {
+    "next": {
+      "rootDir": "."
+    }
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
   "rules": {
-    "react/react-in-jsx-scope": "off",
     "no-unused-vars": "warn",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off"
   }
 }
