@@ -13,25 +13,17 @@ export default async function handler(req, res) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const { range = 'week' } = req.query;
     const { db } = await connectToDatabase();
 
-    // Calculate date range
-    const now = new Date();
-    const startDate = new Date();
-    switch (range) {
-      case 'week':
-        startDate.setDate(now.getDate() - 7);
-        break;
-      case 'month':
-        startDate.setMonth(now.getMonth() - 1);
-        break;
-      case 'year':
-        startDate.setFullYear(now.getFullYear() - 1);
-        break;
-      default:
-        startDate.setDate(now.getDate() - 7);
-    }
+    // First, let's log the raw tracking data
+    const rawTracking = await db
+      .collection('vitamin_tracking')
+      .find({
+        userId: new ObjectId(auth.userId),
+      })
+      .toArray();
+    
+    console.log('Raw tracking data:', JSON.stringify(rawTracking, null, 2));
 
     // Get tracking history with supplement details
     const history = await db
@@ -40,7 +32,6 @@ export default async function handler(req, res) {
         {
           $match: {
             userId: new ObjectId(auth.userId),
-            timeStamp: { $gte: startDate },
           },
         },
         {
@@ -52,23 +43,73 @@ export default async function handler(req, res) {
           },
         },
         {
-          $unwind: '$supplement',
-        },
-        {
-          $project: {
-            supplementId: 1,
-            timeStamp: 1,
-            dosageIndex: 1,
-            supplementName: '$supplement.name',
-            dosages: '$supplement.dosages',
-            category: '$supplement.category',
+          $unwind: {
+            path: '$supplement',
+            preserveNullAndEmptyArrays: false,
           },
         },
         {
-          $sort: { timeStamp: -1 },
+          $addFields: {
+            dateString: {
+              $dateToString: {
+                format: '%Y-%m-%d',
+                date: '$timeStamp',
+              },
+            },
+          },
+        },
+        {
+          $group: {
+            _id: '$dateString',
+            supplements: {
+              $push: {
+                name: '$supplement.name',
+                amount: {
+                  $let: {
+                    vars: {
+                      dosage: { $arrayElemAt: ['$supplement.dosages', '$dosageIndex'] }
+                    },
+                    in: '$$dosage.amount'
+                  }
+                },
+                unit: {
+                  $let: {
+                    vars: {
+                      dosage: { $arrayElemAt: ['$supplement.dosages', '$dosageIndex'] }
+                    },
+                    in: '$$dosage.unit'
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            date: '$_id',
+            supplements: 1
+          }
+        },
+        {
+          $sort: { date: -1 },
         },
       ])
       .toArray();
+
+    // Log the processed history data
+    console.log('Processed history data:', JSON.stringify(history, null, 2));
+
+    // Log the supplement IDs we're working with
+    const supplementIds = rawTracking.map(t => t.supplementId);
+    const supplements = await db
+      .collection('vitamin_supplements')
+      .find({
+        _id: { $in: supplementIds.map(id => new ObjectId(id)) }
+      })
+      .toArray();
+    
+    console.log('Found supplements:', JSON.stringify(supplements, null, 2));
 
     res.status(200).json(history);
   } catch (error) {

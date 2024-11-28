@@ -34,57 +34,70 @@ const History = () => {
       return;
     }
 
+    // Sort data by date
+    const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+
     const datasets = {};
-    data.forEach((entry) => {
+    sortedData.forEach((entry) => {
       entry.supplements.forEach((supp) => {
-        if (!datasets[supp.name]) {
-          datasets[supp.name] = {
-            label: supp.name,
+        const key = `${supp.name} (${supp.unit || 'units'})`;
+        if (!datasets[key]) {
+          datasets[key] = {
+            label: key,
             data: [],
             borderColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
             tension: 0.4,
+            fill: false,
+            pointRadius: 4,
           };
         }
       });
     });
 
-    const labels = data.map((entry) =>
+    const labels = sortedData.map((entry) =>
       new Date(entry.date).toLocaleDateString()
     );
-    const chartDatasets = Object.values(datasets).map((dataset) => {
-      dataset.data = data.map((entry) => {
-        const supplement = entry.supplements.find(
-          (s) => s.name === dataset.label
-        );
-        return supplement ? supplement.amount : 0;
+
+    // Initialize all datasets with 0 values for all dates
+    Object.values(datasets).forEach(dataset => {
+      dataset.data = new Array(labels.length).fill(0);
+    });
+
+    // Fill in actual values
+    sortedData.forEach((entry, index) => {
+      entry.supplements.forEach((supp) => {
+        const key = `${supp.name} (${supp.unit || 'units'})`;
+        if (datasets[key]) {
+          datasets[key].data[index] = parseInt(supp.amount) || 0;
+        }
       });
-      return dataset;
     });
 
     setChartData({
       labels,
-      datasets: chartDatasets,
+      datasets: Object.values(datasets),
     });
   }, []);
 
   const fetchHistory = useCallback(async () => {
     try {
-      const response = await fetch(
-        `/api/supplements/history?range=${dateRange}`,
-        {
-          credentials: 'include',
-        }
-      );
+      setLoading(true);
+      const response = await fetch('/api/supplements/history', {
+        credentials: 'include',
+      });
       if (response.ok) {
         const data = await response.json();
+        console.log('Received history data:', data);
         prepareChartData(data);
+      } else {
+        console.error('Failed to fetch history:', await response.text());
       }
     } catch (error) {
       console.error('Failed to fetch history:', error);
     } finally {
       setLoading(false);
     }
-  }, [dateRange, prepareChartData]);
+  }, [prepareChartData]);
 
   useEffect(() => {
     fetchHistory();
