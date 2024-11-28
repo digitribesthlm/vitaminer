@@ -1,6 +1,6 @@
-import DashboardLayout from '../../components/DashboardLayout'
-import { useState, useEffect, useCallback } from 'react'
-import { Line } from 'react-chartjs-2'
+import DashboardLayout from '../../components/DashboardLayout';
+import { useState, useEffect, useCallback } from 'react';
+import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,9 +9,9 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend
-} from 'chart.js'
-import { BeakerIcon } from '@heroicons/react/24/outline'
+  Legend,
+} from 'chart.js';
+import { BeakerIcon } from '@heroicons/react/24/outline';
 
 ChartJS.register(
   CategoryScale,
@@ -21,20 +21,20 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend
-)
+);
 
 const History = () => {
-  const [chartData, setChartData] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [dateRange, setDateRange] = useState('week')
+  const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [dateRange, setDateRange] = useState('week');
 
   const prepareChartData = useCallback((data) => {
     if (!data || data.length === 0) {
-      setChartData(null)
-      return
+      setChartData(null);
+      return;
     }
 
-    const datasets = {}
+    const datasets = {};
     data.forEach((entry) => {
       entry.supplements.forEach((supp) => {
         if (!datasets[supp.name]) {
@@ -42,51 +42,58 @@ const History = () => {
             label: supp.name,
             data: [],
             borderColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
-            tension: 0.4
-          }
+            tension: 0.4,
+          };
         }
-      })
-    })
+      });
+    });
 
-    const labels = data.map((entry) => new Date(entry.date).toLocaleDateString())
+    const labels = data.map((entry) =>
+      new Date(entry.date).toLocaleDateString()
+    );
     const chartDatasets = Object.values(datasets).map((dataset) => {
       dataset.data = data.map((entry) => {
-        const supplement = entry.supplements.find((s) => s.name === dataset.label)
-        return supplement ? supplement.amount : 0
-      })
-      return dataset
-    })
+        const supplement = entry.supplements.find(
+          (s) => s.name === dataset.label
+        );
+        return supplement ? supplement.amount : 0;
+      });
+      return dataset;
+    });
 
     setChartData({
       labels,
-      datasets: chartDatasets
-    })
-  }, [])
+      datasets: chartDatasets,
+    });
+  }, []);
 
   const fetchHistory = useCallback(async () => {
     try {
-      const response = await fetch(`/api/supplements/history?range=${dateRange}`, {
-        credentials: 'include'
-      })
+      const response = await fetch(
+        `/api/supplements/history?range=${dateRange}`,
+        {
+          credentials: 'include',
+        }
+      );
       if (response.ok) {
-        const data = await response.json()
-        prepareChartData(data)
+        const data = await response.json();
+        prepareChartData(data);
       }
     } catch (error) {
-      console.error('Failed to fetch history:', error)
+      console.error('Failed to fetch history:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [dateRange, prepareChartData])
+  }, [dateRange, prepareChartData]);
 
   useEffect(() => {
-    fetchHistory()
-  }, [fetchHistory])
+    fetchHistory();
+  }, [fetchHistory]);
 
   const handleRangeChange = (range) => {
-    setDateRange(range)
-    setLoading(true)
-  }
+    setDateRange(range);
+    setLoading(true);
+  };
 
   if (loading) {
     return (
@@ -95,7 +102,7 @@ const History = () => {
           <BeakerIcon className="w-8 h-8 animate-bounce text-blue-500" />
         </div>
       </DashboardLayout>
-    )
+    );
   }
 
   return (
@@ -145,18 +152,18 @@ const History = () => {
                 responsive: true,
                 plugins: {
                   legend: {
-                    position: 'top'
+                    position: 'top',
                   },
                   title: {
                     display: true,
-                    text: 'Supplement Intake Over Time'
-                  }
+                    text: 'Supplement Intake Over Time',
+                  },
                 },
                 scales: {
                   y: {
-                    beginAtZero: true
-                  }
-                }
+                    beginAtZero: true,
+                  },
+                },
               }}
             />
           ) : (
@@ -167,7 +174,7 @@ const History = () => {
         </div>
       </div>
     </DashboardLayout>
-  )
-}
+  );
+};
 
-export default History
+export default History;

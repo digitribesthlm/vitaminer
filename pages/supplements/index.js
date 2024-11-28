@@ -106,11 +106,11 @@ export default function Supplements() {
   const getTimeIcon = (timeOfDay) => {
     switch (timeOfDay) {
       case 'morning':
-        return <SunIcon className='h-4 w-4 text-yellow-500' />;
+        return <SunIcon className="h-4 w-4 text-yellow-500" />;
       case 'evening':
-        return <MoonIcon className='h-4 w-4 text-indigo-500' />;
+        return <MoonIcon className="h-4 w-4 text-indigo-500" />;
       default:
-        return <ClockIcon className='h-4 w-4 text-gray-500' />;
+        return <ClockIcon className="h-4 w-4 text-gray-500" />;
     }
   };
 
@@ -166,36 +166,36 @@ export default function Supplements() {
 
   return (
     <DashboardLayout>
-      <div className='space-y-6'>
+      <div className="space-y-6">
         {/* Header */}
-        <div className='flex justify-between items-center'>
-          <h1 className='text-2xl font-bold'>My Supplements</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">My Supplements</h1>
           <button
             onClick={() => setShowAddForm(true)}
-            className='bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center'
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
           >
-            <PlusIcon className='h-5 w-5 mr-2' />
+            <PlusIcon className="h-5 w-5 mr-2" />
             Add New Supplement
           </button>
         </div>
 
         {/* Add Supplement Form */}
         {showAddForm && (
-          <div className='fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center'>
-            <div className='bg-white rounded-lg p-6 max-w-md w-full'>
-              <h2 className='text-xl font-semibold mb-4'>Add New Supplement</h2>
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white rounded-lg p-6 max-w-md w-full">
+              <h2 className="text-xl font-semibold mb-4">Add New Supplement</h2>
               <form
                 onSubmit={
                   editingSupplement ? handleUpdate : handleAddSupplement
                 }
-                className='space-y-4'
+                className="space-y-4"
               >
                 <div>
-                  <label className='block text-sm font-medium text-gray-700'>
+                  <label className="block text-sm font-medium text-gray-700">
                     Name
                   </label>
                   <input
-                    type='text'
+                    type="text"
                     value={newSupplement.name}
                     onChange={(e) =>
                       setNewSupplement({
@@ -203,13 +203,13 @@ export default function Supplements() {
                         name: e.target.value,
                       })
                     }
-                    className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className='block text-sm font-medium text-gray-700'>
+                  <label className="block text-sm font-medium text-gray-700">
                     Description
                   </label>
                   <textarea
@@ -220,13 +220,13 @@ export default function Supplements() {
                         description: e.target.value,
                       })
                     }
-                    className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
-                    rows='2'
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    rows="2"
                   />
                 </div>
 
                 <div>
-                  <label className='block text-sm font-medium text-gray-700'>
+                  <label className="block text-sm font-medium text-gray-700">
                     Category
                   </label>
                   <select
@@ -237,21 +237,21 @@ export default function Supplements() {
                         category: e.target.value,
                       })
                     }
-                    className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   >
-                    <option value='vitamin'>Vitamin</option>
-                    <option value='mineral'>Mineral</option>
-                    <option value='supplement'>Supplement</option>
+                    <option value="vitamin">Vitamin</option>
+                    <option value="mineral">Mineral</option>
+                    <option value="supplement">Supplement</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className='block text-sm font-medium text-gray-700'>
+                  <label className="block text-sm font-medium text-gray-700">
                     Dosage
                   </label>
-                  <div className='mt-1 grid grid-cols-3 gap-2'>
+                  <div className="mt-1 grid grid-cols-3 gap-2">
                     <input
-                      type='number'
+                      type="number"
                       value={newSupplement.dosages[0].amount}
                       onChange={(e) =>
                         setNewSupplement({
@@ -264,8 +264,8 @@ export default function Supplements() {
                           ],
                         })
                       }
-                      className='block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
-                      placeholder='Amount'
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      placeholder="Amount"
                       required
                     />
                     <select
@@ -281,12 +281,12 @@ export default function Supplements() {
                           ],
                         })
                       }
-                      className='block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     >
-                      <option value='mg'>mg</option>
-                      <option value='mcg'>mcg</option>
-                      <option value='IU'>IU</option>
-                      <option value='g'>g</option>
+                      <option value="mg">mg</option>
+                      <option value="mcg">mcg</option>
+                      <option value="IU">IU</option>
+                      <option value="g">g</option>
                     </select>
                     <select
                       value={newSupplement.dosages[0].timeOfDay}
@@ -301,25 +301,25 @@ export default function Supplements() {
                           ],
                         })
                       }
-                      className='block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500'
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     >
-                      <option value='morning'>Morning</option>
-                      <option value='afternoon'>Afternoon</option>
-                      <option value='evening'>Evening</option>
+                      <option value="morning">Morning</option>
+                      <option value="afternoon">Afternoon</option>
+                      <option value="evening">Evening</option>
                     </select>
                   </div>
                 </div>
 
                 {/* Labels Section */}
                 <div>
-                  <label className='block text-sm font-medium text-gray-700'>
+                  <label className="block text-sm font-medium text-gray-700">
                     Labels
                   </label>
-                  <div className='mt-2 flex flex-wrap gap-2'>
+                  <div className="mt-2 flex flex-wrap gap-2">
                     {labels.map((label) => (
                       <button
                         key={label._id}
-                        type='button'
+                        type="button"
                         onClick={() => handleLabelToggle(label._id)}
                         className={`inline-flex items-center px-3 py-1 rounded-full text-sm
                           ${
@@ -330,24 +330,24 @@ export default function Supplements() {
                       >
                         {label.name}
                         {newSupplement.labelIds.includes(label._id) && (
-                          <XMarkIcon className='w-4 h-4 ml-1' />
+                          <XMarkIcon className="w-4 h-4 ml-1" />
                         )}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className='flex justify-end space-x-3 mt-6'>
+                <div className="flex justify-end space-x-3 mt-6">
                   <button
-                    type='button'
+                    type="button"
                     onClick={() => setShowAddForm(false)}
-                    className='px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50'
+                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                   >
                     Cancel
                   </button>
                   <button
-                    type='submit'
-                    className='px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700'
+                    type="submit"
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                   >
                     {editingSupplement ? 'Update Supplement' : 'Add Supplement'}
                   </button>
@@ -358,46 +358,46 @@ export default function Supplements() {
         )}
 
         {/* Supplements List */}
-        <div className='grid grid-cols-1 gap-4'>
+        <div className="grid grid-cols-1 gap-4">
           {supplements.map((supplement) => (
             <div
               key={supplement._id}
-              className='bg-white rounded-lg shadow-sm p-6'
+              className="bg-white rounded-lg shadow-sm p-6"
             >
-              <div className='flex justify-between items-start'>
+              <div className="flex justify-between items-start">
                 <div>
-                  <h3 className='text-lg font-medium text-gray-900'>
+                  <h3 className="text-lg font-medium text-gray-900">
                     {supplement.name}
                   </h3>
-                  <p className='text-sm text-gray-500 mt-1'>
+                  <p className="text-sm text-gray-500 mt-1">
                     {supplement.description}
                   </p>
-                  <div className='mt-3'>
+                  <div className="mt-3">
                     {supplement.dosages.map((dosage, index) => (
                       <div
                         key={index}
-                        className='flex items-center text-sm text-gray-600 mt-1'
+                        className="flex items-center text-sm text-gray-600 mt-1"
                       >
                         {getTimeIcon(dosage.timeOfDay)}
-                        <span className='ml-2'>
+                        <span className="ml-2">
                           {dosage.amount} {dosage.unit} - {dosage.timeOfDay}
                         </span>
                       </div>
                     ))}
                   </div>
                 </div>
-                <div className='flex space-x-2'>
+                <div className="flex space-x-2">
                   <button
                     onClick={() => handleEdit(supplement)}
-                    className='text-blue-600 hover:text-blue-800'
+                    className="text-blue-600 hover:text-blue-800"
                   >
-                    <PencilIcon className='h-5 w-5' />
+                    <PencilIcon className="h-5 w-5" />
                   </button>
                   <button
                     onClick={() => handleDelete(supplement._id)}
-                    className='text-red-600 hover:text-red-800'
+                    className="text-red-600 hover:text-red-800"
                   >
-                    <TrashIcon className='h-5 w-5' />
+                    <TrashIcon className="h-5 w-5" />
                   </button>
                 </div>
               </div>

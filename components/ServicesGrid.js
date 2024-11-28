@@ -33,21 +33,21 @@ export default function ServicesGrid() {
   ];
 
   return (
-    <section className='py-20 bg-gray-50'>
-      <div className='container mx-auto px-8'>
-        <h2 className='text-4xl font-bold text-center mb-16'>
+    <section className="py-20 bg-gray-50">
+      <div className="container mx-auto px-8">
+        <h2 className="text-4xl font-bold text-center mb-16">
           Full-Service Digital Growth
         </h2>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <div
               key={index}
-              className='bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow'
+              className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow"
             >
-              <div className='flex flex-col items-center text-center'>
-                <h3 className='text-xl font-semibold mb-3'>{service.title}</h3>
-                <p className='text-gray-600'>{service.description}</p>
+              <div className="flex flex-col items-center text-center">
+                <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
+                <p className="text-gray-600">{service.description}</p>
               </div>
             </div>
           ))}

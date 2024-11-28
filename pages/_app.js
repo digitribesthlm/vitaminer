@@ -16,7 +16,7 @@ function ErrorBoundary({ children }) {
 
   if (hasError) {
     return (
-      <div className='error-fallback'>
+      <div className="error-fallback">
         <h1>Something went wrong</h1>
         <p>Please refresh the page or contact support</p>
       </div>

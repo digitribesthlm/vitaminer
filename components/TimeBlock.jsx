@@ -5,7 +5,7 @@ const TimeBlock = () => {
         <h3 className="text-lg font-medium">Time Block</h3>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TimeBlock
+export default TimeBlock;

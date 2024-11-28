@@ -52,26 +52,26 @@ export default function WelcomePage() {
   };
 
   return (
-    <div className='min-h-screen'>
+    <div className="min-h-screen">
       <Navbar onLoginClick={() => setShowLoginModal(true)} />
 
       <main>
-        <div className='container mx-auto px-8 py-20'>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-12 items-center'>
-            <div className='space-y-6'>
-              <h1 className='text-6xl font-bold leading-tight'>
-                <span className='block text-gray-900'>GROW</span>
-                <span className='block text-blue-600'>YOUR</span>
-                <span className='block text-emerald-500'>TOPICS</span>
+        <div className="container mx-auto px-8 py-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <h1 className="text-6xl font-bold leading-tight">
+                <span className="block text-gray-900">GROW</span>
+                <span className="block text-blue-600">YOUR</span>
+                <span className="block text-emerald-500">TOPICS</span>
               </h1>
-              <p className='text-gray-600 text-lg max-w-md'>
+              <p className="text-gray-600 text-lg max-w-md">
                 Create, manage, and organize your topics efficiently with our
                 powerful platform.
               </p>
-              <div className='flex space-x-4'>
+              <div className="flex space-x-4">
                 <button
                   onClick={() => setShowLoginModal(true)}
-                  className='bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors'
+                  className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   Get Started
                 </button>
@@ -86,31 +86,31 @@ export default function WelcomePage() {
       <Footer />
 
       {showLoginModal && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4'>
-          <div className='bg-white rounded-2xl p-8 max-w-md w-full relative'>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full relative">
             <button
               onClick={() => setShowLoginModal(false)}
-              className='absolute top-4 right-4 text-gray-400 hover:text-gray-600'
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
             >
               ✕
             </button>
-            <h3 className='text-2xl font-bold mb-6'>Login to Your Account</h3>
+            <h3 className="text-2xl font-bold mb-6">Login to Your Account</h3>
 
             {error && (
-              <div className='alert alert-error mb-4'>
+              <div className="alert alert-error mb-4">
                 <span>{error}</span>
               </div>
             )}
 
             <form onSubmit={handleSubmit}>
-              <div className='space-y-4'>
+              <div className="space-y-4">
                 <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Email
                   </label>
                   <input
-                    type='email'
-                    className='w-full px-3 py-2 border border-gray-300 rounded-lg'
+                    type="email"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -118,42 +118,42 @@ export default function WelcomePage() {
                 </div>
 
                 <div>
-                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Password
                   </label>
                   <input
-                    type='password'
-                    className='w-full px-3 py-2 border border-gray-300 rounded-lg'
+                    type="password"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                 </div>
 
-                <div className='flex items-center justify-between'>
-                  <label className='flex items-center'>
+                <div className="flex items-center justify-between">
+                  <label className="flex items-center">
                     <input
-                      type='checkbox'
-                      className='form-checkbox h-4 w-4 text-blue-600 rounded border-gray-300'
+                      type="checkbox"
+                      className="form-checkbox h-4 w-4 text-blue-600 rounded border-gray-300"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
                     />
-                    <span className='ml-2 text-sm text-gray-600'>
+                    <span className="ml-2 text-sm text-gray-600">
                       Remember me
                     </span>
                   </label>
 
                   <a
-                    href='#'
-                    className='text-sm text-blue-600 hover:text-blue-700'
+                    href="#"
+                    className="text-sm text-blue-600 hover:text-blue-700"
                   >
                     Forgot password?
                   </a>
                 </div>
 
                 <button
-                  type='submit'
-                  className='w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors'
+                  type="submit"
+                  className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   Login
                 </button>

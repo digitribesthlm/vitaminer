@@ -50,19 +50,19 @@ export default function DashboardLayout({ children }) {
   ];
 
   return (
-    <div className='min-h-screen flex flex-col'>
-      <nav className='bg-white shadow-lg'>
-        <div className='container mx-auto px-8'>
-          <div className='flex justify-between items-center py-4'>
-            <div className='flex items-center space-x-12'>
+    <div className="min-h-screen flex flex-col">
+      <nav className="bg-white shadow-lg">
+        <div className="container mx-auto px-8">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center space-x-12">
               <Link
-                href='/dashboard'
-                className='text-xl font-medium text-blue-600'
+                href="/dashboard"
+                className="text-xl font-medium text-blue-600"
               >
-                <BeakerIcon className='h-8 w-8 inline-block mr-2' />
+                <BeakerIcon className="h-8 w-8 inline-block mr-2" />
                 Vitamin Tracker
               </Link>
-              <div className='hidden md:flex space-x-8'>
+              <div className="hidden md:flex space-x-8">
                 {navigation.map((item) => {
                   const Icon = item.icon;
                   return (
@@ -75,7 +75,7 @@ export default function DashboardLayout({ children }) {
                           : ''
                       }`}
                     >
-                      <Icon className='h-5 w-5' />
+                      <Icon className="h-5 w-5" />
                       <span>{item.name}</span>
                     </Link>
                   );
@@ -83,22 +83,22 @@ export default function DashboardLayout({ children }) {
               </div>
             </div>
 
-            <div className='flex items-center space-x-4'>
-              <div className='relative'>
+            <div className="flex items-center space-x-4">
+              <div className="relative">
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className='flex items-center space-x-2 text-gray-700 hover:text-gray-900'
+                  className="flex items-center space-x-2 text-gray-700 hover:text-gray-900"
                 >
-                  <UserIcon className='h-5 w-5' />
+                  <UserIcon className="h-5 w-5" />
                   <span>{user.email}</span>
                 </button>
                 {isMenuOpen && (
-                  <div className='absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2'>
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2">
                     <button
                       onClick={handleLogout}
-                      className='flex items-center w-full px-4 py-2 text-red-600 hover:bg-gray-100'
+                      className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-gray-100"
                     >
-                      <ArrowRightOnRectangleIcon className='h-5 w-5 mr-2' />
+                      <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
                       Logout
                     </button>
                   </div>
@@ -109,8 +109,8 @@ export default function DashboardLayout({ children }) {
         </div>
       </nav>
 
-      <main className='flex-grow bg-gray-50'>
-        <div className='container mx-auto px-8 py-8'>{children}</div>
+      <main className="flex-grow bg-gray-50">
+        <div className="container mx-auto px-8 py-8">{children}</div>
       </main>
 
       <Footer />
