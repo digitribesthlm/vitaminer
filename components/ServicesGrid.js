@@ -1,34 +1,34 @@
 export default function ServicesGrid() {
   const services = [
     {
-      title: 'Performance Marketing',
+      title: 'Track Your Supplements',
       description:
-        'Strategic PPC campaigns across Google, Meta, LinkedIn, and more. Drive targeted traffic that converts.',
+        'Keep detailed logs of your daily vitamin and supplement intake. Never miss a dose with our smart reminder system.',
     },
     {
-      title: 'Search Engine Optimization',
+      title: 'Personalized Dashboard',
       description:
-        'Dominate search rankings with data-driven SEO strategies tailored to your market and audience.',
+        'View your supplement history, track nutrient levels, and monitor your progress with our intuitive dashboard.',
     },
     {
-      title: 'Journey Optimization',
+      title: 'Health Insights',
       description:
-        'Enhance every touchpoint of your customer journey with advanced analytics and optimization.',
+        'Get detailed insights about your supplement routine and potential nutrient interactions.',
     },
     {
-      title: 'International Growth',
+      title: 'Supplement Database',
       description:
-        'Expand your reach across 10 European markets with localized digital strategies.',
+        'Access our comprehensive database of vitamins and supplements, complete with dosage guidelines and health benefits.',
     },
     {
-      title: 'Data & Analytics',
+      title: 'Progress Analytics',
       description:
-        'Turn data into insights with comprehensive tracking and performance measurement.',
+        'Visualize your supplement intake patterns and track your health goals with detailed analytics.',
     },
     {
-      title: 'Strategy & Innovation',
+      title: 'Simple to Use',
       description:
-        'Custom digital strategies that align with your business goals and market dynamics.',
+        'Designed for all ages with an easy-to-use interface. Track your supplements with just a few clicks.',
     },
   ];
 
@@ -36,7 +36,7 @@ export default function ServicesGrid() {
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-8">
         <h2 className="text-4xl font-bold text-center mb-16">
-          Full-Service Digital Growth
+          Track Your Health Journey
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

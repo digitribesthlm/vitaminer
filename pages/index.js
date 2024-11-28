@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ServicesGrid from '../components/ServicesGrid';
+import Image from 'next/image';
 
 export default function WelcomePage() {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -60,22 +61,30 @@ export default function WelcomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h1 className="text-6xl font-bold leading-tight">
-                <span className="block text-gray-900">GROW</span>
+                <span className="block text-emerald-500">TRACK</span>
                 <span className="block text-blue-600">YOUR</span>
-                <span className="block text-emerald-500">TOPICS</span>
+                <span className="block text-purple-600">HEALTH</span>
               </h1>
               <p className="text-gray-600 text-lg max-w-md">
-                Create, manage, and organize your topics efficiently with our
-                powerful platform.
+                Take control of your health journey by tracking your daily vitamins and supplements. Stay organized, get insights, and achieve your wellness goals.
               </p>
               <div className="flex space-x-4">
                 <button
                   onClick={() => setShowLoginModal(true)}
-                  className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                  className="bg-emerald-500 text-white px-8 py-3 rounded-lg hover:bg-emerald-600 transition-colors"
                 >
-                  Get Started
+                  Start Tracking
                 </button>
               </div>
+            </div>
+            <div className="flex justify-center -ml-6">
+              <Image
+                src="/group.png"
+                alt="Vitamin tracking illustration"
+                width={575}
+                height={575}
+                priority
+              />
             </div>
           </div>
         </div>
